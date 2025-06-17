@@ -1,0 +1,12 @@
+.container {
+  max-width: 800px;
+}
+.card-header {
+  font-size: 1.3rem;
+}
+.table th, .table td {
+  vertical-align: middle;
+}
+.fw-bold.fs-5.mb-3 span {
+  font-size: 1.2em;
+}

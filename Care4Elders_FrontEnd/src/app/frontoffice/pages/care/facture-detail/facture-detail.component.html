@@ -1,0 +1,49 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Détails de la Facture</h3>
+    </div>
+    <div class="card-body" *ngIf="facture && careRequest">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5 class="text-muted">Informations de la Demande</h5>
+          <p><strong>Type de Soin:</strong> {{ careRequest.careType }}</p>
+          <p><strong>Description:</strong> {{ careRequest.description }}</p>
+          <p><strong>Date Début:</strong> {{ careRequest.startDate | date }}</p>
+          <p><strong>Date Fin:</strong> {{ careRequest.endDate | date }}</p>
+          <p><strong>Statut:</strong> 
+            <span class="badge" [ngClass]="{
+              'bg-warning text-dark': careRequest.status === 'EN_ATTENTE',
+              'bg-info': careRequest.status === 'AFFECTE',
+              'bg-success': careRequest.status === 'TERMINE',
+              'bg-danger': careRequest.status === 'ANNULE'
+            }">
+              {{ careRequest.status }}
+            </span>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="text-muted">Détails du Paiement</h5>
+          <p><strong>Montant:</strong> {{ facture.amount }} TND</p>
+          <p><strong>Date d'émission:</strong> {{ facture.dateCreation | date }}</p>
+          <p><strong>Statut du paiement:</strong> 
+            <span class="badge" [ngClass]="facture.paid ? 'bg-success' : 'bg-warning'">
+              {{ facture.paid ? 'Payée' : 'En attente de paiement' }}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center" *ngIf="!facture.paid">
+        <button class="btn btn-primary btn-lg" (click)="proceedToPayment()">
+          Procéder au Paiement
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer> 

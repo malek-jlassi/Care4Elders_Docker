@@ -1,0 +1,112 @@
+<!-- Patient Information Card -->
+<div class="card patient-info mb-4 shadow-sm">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+    <div class="icon-circle">
+      <i class="fas fa-user"></i>
+    </div>
+    <h5 class="mb-0">Informations du patient</h5>
+  </div>
+</div>
+  <div class="card-body">
+    <p><strong>Nom:</strong> {{ patientInfo?.username }}</p>
+    <p><strong>Téléphone:</strong> {{ patientInfo?.phoneNumber }}</p>
+    <p><strong>Email:</strong> {{ patientInfo?.email }}</p>
+    <p><strong>Adresse:</strong> {{ patientInfo?.adressePatient }}</p>
+  </div>
+</div>
+
+<!-- Care Request Form Card -->
+<div class="card mb-4 shadow-sm">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+    <div class="icon-circle">
+      <i class="fas fa-notes-medical"></i>
+    </div>
+    <h5 class="mb-0">Nouvelle demande de soin</h5>
+  </div>
+</div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      
+      <!-- Maladies -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Maladies Chroniques</label>
+        <div class="row g-2">
+          <div *ngFor="let m of maladiesOptions" class="col-12 col-md-6">
+            <div class="maladie-box">
+              <input type="checkbox"
+                     class="form-check-input me-2"
+                     [value]="m"
+                     (change)="onMaladieChange($event)"
+                     [checked]="form.get('maladiesChroniques')?.value.includes(m)"
+                     id="{{ m }}">
+              <label class="form-check-label" [for]="m">{{ m }}</label>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="form.get('maladiesChroniques')?.touched && form.get('maladiesChroniques')?.errors?.['required']"
+             class="text-danger mt-2">
+          Veuillez sélectionner au moins une maladie chronique.
+        </div>
+      </div>
+
+      <!-- Type de soin -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Type de soin</label>
+        <select formControlName="careType" class="form-select">
+          <option *ngFor="let c of careTypes" [value]="c">{{ c }}</option>
+        </select>
+        <div *ngIf="form.get('careType')?.touched && form.get('careType')?.errors?.['required']" class="text-danger mt-1">
+          Le type de soin est requis.
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Description</label>
+        <textarea formControlName="description" class="form-control" rows="3"></textarea>
+        <div *ngIf="form.get('description')?.touched && form.get('description')?.errors?.['minlength']" class="text-danger mt-1">
+          La description doit contenir au moins 10 caractères.
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Date de début</label>
+          <input type="datetime-local"
+                 formControlName="startDate"
+                 class="form-control"
+                 [attr.min]="currentDateTime" />
+          <div *ngIf="form.get('startDate')?.touched && form.get('startDate')?.errors?.['pastDate']"
+               class="text-danger mt-1">
+            La date de début ne peut pas être antérieure à la date actuelle.
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Date de fin</label>
+          <input type="datetime-local"
+                 formControlName="endDate"
+                 class="form-control"
+                 [attr.min]="endDateMin" />
+          <div *ngIf="form.get('endDate')?.touched && form.get('endDate')?.errors?.['required']"
+               class="text-danger mt-1">
+            La date de fin est requise.
+          </div>
+          <div *ngIf="form.hasError('endDateBeforeStartDate') && form.get('endDate')?.touched"
+               class="text-danger mt-1">
+            La date de fin doit être après la date de début.
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane me-2"></i>Soumettre
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

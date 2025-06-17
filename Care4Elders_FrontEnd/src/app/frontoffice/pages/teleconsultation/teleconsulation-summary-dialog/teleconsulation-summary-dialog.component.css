@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+mat-dialog-content {
+  display: block;
+}

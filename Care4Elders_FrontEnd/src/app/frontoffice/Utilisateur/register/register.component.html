@@ -1,0 +1,105 @@
+<div class="register-container">
+<h2>Créer un compte</h2>
+<hr class="separator" />
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Infos de base -->
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur</label>
+      <input id="username" type="text" formControlName="username" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Adresse e-mail</label>
+      <input id="email" type="email" formControlName="email" />
+    </div>
+
+    <div class="form-group">
+
+      <label for="phoneNumber">Numéro de téléphone</label>
+      <input id="phoneNumber" type="text" formControlName="phoneNumber" />
+    </div>
+
+    <div class="form-group">
+      <label for="dateOfBirth">Date de naissance</label>
+      <input id="dateOfBirth" type="date" formControlName="dateOfBirth" />
+    </div>
+
+    <div class="form-group">
+      <label for="role">Rôle</label>
+      <select id="role" formControlName="role">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+
+   <!-- Champs Patient -->
+<div *ngIf="registerForm.get('role')?.value === 'PATIENT'">
+  <div class="form-group">
+    <label for="adressePatient">Adresse</label>
+    <input id="adressePatient" type="text" formControlName="adressePatient" />
+  </div>
+  <div class="form-group">
+    <label for="dossierMedicalPdf">Dossier Médical (PDF)</label>
+    <input id="dossierMedicalPdf" type="file" (change)="onFileChange($event, 'dossierMedicalPdf')" />
+  </div>
+</div>
+
+<!-- Champs Aidant -->
+<div *ngIf="registerForm.get('role')?.value === 'AIDANT'">
+  <div class="form-group">
+    <label for="adresseAidant">Adresse</label>
+    <input id="adresseAidant" type="text" formControlName="adresseAidant" />
+  </div>
+  <div class="form-group">
+    <label for="cartedIentite">Carte d'identité</label>
+    <input id="cartedIentite" type="file" (change)="onFileChange($event, 'cartedIentite')" />
+  </div>
+</div>
+
+<!-- Champs Médecin -->
+<div *ngIf="registerForm.get('role')?.value === 'MEDECIN'">
+  <div class="form-group">
+    <label for="specialite">Spécialité</label>
+    <input id="specialite" type="text" formControlName="specialite" />
+  </div>
+  <div class="form-group">
+    <label for="numeroOrdre">Numéro d'ordre</label>
+    <input id="numeroOrdre" type="text" formControlName="numeroOrdre" />
+  </div>
+  <div class="form-group">
+    <label for="fichierDiplome">Diplôme (PDF)</label>
+    <input id="fichierDiplome" type="file" (change)="onFileChange($event, 'fichierDiplome')" />
+  </div>
+</div>
+
+
+    <!-- Mot de passe -->
+    <div class="form-group password-group">
+      <label for="password">Mot de passe</label>
+      <div class="password-wrapper">
+        <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" />
+        <button type="button" (click)="togglePasswordVisibility('password')">
+          {{ showPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group password-group">
+      <label for="confirmPassword">Confirmer le mot de passe</label>
+      <div class="password-wrapper">
+        <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" formControlName="confirmPassword" />
+        <button type="button" (click)="togglePasswordVisibility('confirm')">
+          {{ showConfirmPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <div class="error" *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched">
+        Les mots de passe ne correspondent pas.
+      </div>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
+    
+  </form>
+</div>
+ 

@@ -1,0 +1,128 @@
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+  <button class="btn btn-success ms-2" [routerLink]="['/factures/global']">
+    <i class="fas fa-file-invoice-dollar"></i> Consulter Facture
+  </button>
+
+      <div class="d-flex align-items-center">
+        <div class="icon-circle">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h5 class="mb-0">Liste des demandes de soin</h5>
+      </div>
+      <div class="btn-group">
+        <button 
+          class="btn btn-sm btn-outline-primary" 
+          [class.active]="selectedStatus === 'ALL'" 
+          (click)="selectedStatus = 'ALL'">Tous</button>
+      
+        <button 
+          class="btn btn-sm btn-outline-primary" 
+          [class.active]="selectedStatus === 'EN_ATTENTE'" 
+          (click)="selectedStatus = 'EN_ATTENTE'">En attente</button>
+      
+        <button 
+          class="btn btn-sm btn-outline-primary" 
+          [class.active]="selectedStatus === 'AFFECTE'" 
+          (click)="selectedStatus = 'AFFECTE'">Affectés</button>
+      
+          <button 
+          class="btn btn-sm btn-outline-primary" 
+          [class.active]="selectedStatus === 'ANNULE'" 
+          (click)="selectedStatus = 'ANNULE'">Annulé</button>
+      
+        <button 
+          class="btn btn-sm btn-outline-primary" 
+          [class.active]="selectedStatus === 'TERMINE'" 
+          (click)="selectedStatus = 'TERMINE'">Terminés</button>
+      </div>
+      
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover m-0">
+          <thead>
+            <tr>
+              <th>Maladies</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Date Début</th>
+              <th>Date Fin</th>
+              <th>Statut</th>
+              <th>Actions</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let req of filteredRequestsPaginated">
+
+        <td>{{ req.maladiesChroniques }}</td>
+        <td>{{ req.careType }}</td>
+        <td>{{ req.description }}</td>
+        <td>{{ req.startDate | date }}</td>
+        <td>{{ req.endDate | date }}</td>
+        <td>
+            <span class="badge"
+                  [ngClass]="{
+                    'bg-warning text-dark': req.status === 'EN_ATTENTE',
+                    'bg-info': req.status === 'AFFECTE',
+                    'bg-success': req.status === 'TERMINE',
+                    'bg-danger': req.status === 'ANNULE'
+                  }">
+              {{ req.status }}
+            </span>
+          </td>
+          <td>
+            <ng-container *ngIf="req.facture; else noFacture">
+              <a [routerLink]="['/facture', req.facture.id]" class="btn btn-link">
+                {{ req.facture.amount }} TND
+                <span class="badge" [ngClass]="req.facture.paid ? 'bg-success' : 'bg-warning'">
+                  {{ req.facture.paid ? 'Payée' : 'Non payée' }}
+                </span>
+              </a>
+            </ng-container>
+            <ng-template #noFacture>
+              <span class="text-muted">Aucune</span>
+            </ng-template>
+          </td>
+          
+
+          <td class="text-nowrap">
+            <div class="d-flex gap-2 justify-content-end">
+              <button class="btn action-btn edit-btn" (click)="editRequest(req)">
+                <i class="fas fa-pen"></i>
+              </button>
+          
+              <button class="btn action-btn delete-btn" (click)="deleteRequest(req.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+          
+          
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="requests.length === 0">Aucune demande trouvée.</p>
+  
+  <div class="d-flex justify-content-between align-items-center p-2">
+    <div>
+      Afficher 
+      <select [(ngModel)]="pageSize" class="form-select form-select-sm d-inline-block w-auto mx-1">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+      entrées
+    </div>
+
+    <div>
+      <button class="btn btn-sm btn-outline-secondary me-1" (click)="previousPage()" [disabled]="currentPage === 1">
+        Précédent
+      </button>
+      <span>Page {{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-sm btn-outline-secondary ms-1" (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Suivant
+      </button>
+    </div>
+  </div>
+  

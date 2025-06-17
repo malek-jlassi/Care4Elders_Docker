@@ -1,0 +1,108 @@
+<section class="form-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>{{ isEdit ? 'Edit Teleconsultation' : 'Schedule Teleconsultation' }}</h1>
+      <p>{{ isEdit ? 'Update teleconsultation details' : 'Create a new teleconsultation for a patient' }}</p>
+    </div>
+    <div class="header-actions">
+      <button mat-button color="primary" [routerLink]="['/teleconsultations']" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to List
+      </button>
+    </div>
+  </header>
+
+  <div class="content-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="appointment-form">
+      <div class="form-grid">
+        <!-- Left Column -->
+        <div class="form-column">
+          <h3 class="section-title">Teleconsultation Info</h3>
+
+            <div class="inline-fields">
+              <mat-form-field appearance="outline">
+                    <mat-label>Patient</mat-label>
+                    <mat-select formControlName="patientId">
+                    <mat-option *ngFor="let patient of patients" [value]="patient.id">
+                    {{ patient.username }}
+                    </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                    <mat-label>Doctor</mat-label>
+                    <mat-select formControlName="doctorId">
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+                        {{ doctor.username }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>  
+           
+            <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input 
+                matInput 
+                [matDatepicker]="teleDatePicker" 
+                formControlName="date" 
+                placeholder="MM/DD/YYYY"
+                [min]="minDate" 
+            />
+            <mat-datepicker-toggle matSuffix [for]="teleDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #teleDatePicker></mat-datepicker>
+            <mat-error *ngIf="f['date']?.errors?.['required']">Date is required</mat-error>
+            <mat-error *ngIf="f['date']?.errors?.['matDatepickerMin']">Date cannot be in the past</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Time</mat-label>
+              <input matInput type="time" formControlName="time" placeholder="HH:MM" />
+              <mat-error *ngIf="f['time']?.errors?.['required']">Time is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Duration (minutes)</mat-label>
+            <input matInput type="number" formControlName="durationMinutes" min="15" max="240" />
+            <mat-error *ngIf="f['durationMinutes']?.errors?.['required']">Duration is required</mat-error>
+            <mat-error *ngIf="f['durationMinutes']?.errors?.['min']">Minimum 15 minutes</mat-error>
+            <mat-error *ngIf="f['durationMinutes']?.errors?.['max']">Maximum 240 minutes</mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Notes</mat-label>
+            <textarea matInput formControlName="notes" rows="3" placeholder="Optional notes"></textarea>
+            <mat-error *ngIf="f['notes']?.errors?.['maxlength']">Maximum 1000 characters</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+        <!-- Right Column -->
+        <!-- <div class="form-column"> -->
+          <!-- <h3 class="section-title">Consultation Status</h3>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="EN_ATTENTE">Pending</mat-option>
+              <mat-option value="EN_COURS">Confirmed</mat-option>
+              <mat-option value="ANNULEE">Cancelled</mat-option>
+              <mat-option value="TERMINEE">Completed</mat-option>
+            </mat-select>
+          </mat-form-field>
+  -->
+          <!-- Optional: Add notes or remarks -->
+          
+       <button mat-button (click)="openTestDialog()">Tester Dialog</button>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-button type="button" [routerLink]="['/teleconsultations/list']">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          {{ isEdit ? 'Update Teleconsultation' : 'Schedule Teleconsultation' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

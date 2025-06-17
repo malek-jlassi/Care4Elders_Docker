@@ -1,0 +1,136 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+<!-- Page Header Start -->
+
+ <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Liste produits</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Liste produits</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<div class="shell">
+    <!-- Main -->
+
+    <div id="main">
+        <div class="cl">&nbsp;</div>
+        <!-- Content -->
+        <div id="content">
+            <!-- Content Slider -->
+            <div id="slider" class="box">
+                <div id="slider-holder">
+                    <ul >
+                        <li><a href="#"><img src="assets/img/med1.png" alt="" /></a></li>
+                       
+                    </ul>
+                </div>
+                <div id="slider-nav">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                </div>
+            </div>
+            <!-- End Content Slider -->
+
+            <!-- Products -->
+             <!-- Products -->
+<div class="products">
+    <div class="cl">&nbsp;</div>
+    <ul>
+      <li *ngFor="let product of products">
+        <a href="#"><img [src]="'http://localhost:9091' + product.image" alt="Image du produit" />
+        </a>
+        <div class="product-info">
+          <h3>{{ product.nomProduit }}</h3>
+          <div class="product-desc">
+            <p>{{ product.descriptionProduit }}</p>
+            <div class="product-qt">
+              <strong>Quantité:</strong> {{ product.qt }}
+            </div>
+            <div class="product-region">
+        <strong>Région:</strong> {{ product.region }}
+      </div>
+            <strong class="price">{{ formatPrice(product.prix) }}</strong>
+            <div class="product-status">
+              <strong>Statut:</strong> {{ getStatusProduit(product) }}
+            </div>
+            <button class="delivery-btn" (click)="goToDelivery(product)" [disabled]="product.qt === 0">
+              Commander avec livraison
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="cl">&nbsp;</div>
+  </div>
+  <!-- End Products -->
+        </div>
+        <!-- End Content -->
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="box search">
+                <h2>Search by <span></span></h2>
+                <div class="box-content">
+                    <form action="#" method="post">
+                        <div class="box-content">
+                            <label for="name-select">Nom</label>
+                            <div class="custom-select-wrapper">
+                                <select id="name-select" class="custom-select" >
+                                    <option value="asc" selected>A-to-Z</option>
+                                    <option value="desc">Z-to-A</option>
+                                </select>
+                            </div>
+
+                            <div class="inline-field">
+                                <label for="price-range">Prix </label>
+                                <div class="slidecontainer">
+                                    <input type="range" min="1" max="1000" [value]="" class="slider" id="price-range" >
+                                    <span> TND -  TND</span>
+                                </div>
+                            </div>
+
+                            <input type="submit" class="search-submit" value="chercher">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- End Search -->
+
+
+            <!-- Categories -->
+            <div class="box categories">
+                <h2> <span></span></h2>
+                <div class="box-content">
+                    <ul>
+                        <li><a href=""></a></li>
+                        <li><a href=""></a></li>
+                        <li><a href=""></a></li>
+                        <li><a href=""></a></li>
+                        <li><a href=""></a></li>
+                    
+                    </ul>
+                </div>
+            </div>
+            <!-- End Categories -->
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="cl">&nbsp;</div>
+    </div>
+    <!-- End Main -->
+
+   
+</div>
+<!-- End Shell -->
+
+<app-footer></app-footer>

@@ -1,0 +1,6 @@
+tn\health\paymentservice\controller\PaymentResponseDTO.class
+tn\health\paymentservice\PaymentServiceApplication.class
+tn\health\paymentservice\service\PaymentService.class
+tn\health\paymentservice\controller\PaymentController.class
+tn\health\paymentservice\config\WebConfig.class
+tn\health\paymentservice\controller\PaymentRequestDTO.class

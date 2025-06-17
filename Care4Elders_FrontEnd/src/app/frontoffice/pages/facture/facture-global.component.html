@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Factures à payer</h3>
+    </div>
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center my-4">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="!loading && !error">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>#</th>
+              <th>Montant</th>
+              <th>Date émission</th>
+              <th>Payée</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let facture of unpaidFactures; let i = index">
+              <td>
+                <input type="checkbox" [checked]="selectedFactures.has(facture.id)" (change)="toggleFacture(facture.id, $event)" />
+              </td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ facture.amount }} TND</td>
+              <td>{{ facture.dateIssued ? (facture.dateIssued | date) : '-' }}</td>
+              <td>
+                <span class="badge bg-warning">Non payée</span>
+              </td>
+            </tr>
+            <tr *ngIf="unpaidFactures.length === 0">
+              <td colspan="5" class="text-center text-muted">Aucune facture impayée</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-end fw-bold fs-5 mb-3">
+          Total sélectionné : <span class="text-primary">{{ totalSelected }} TND</span> <br>
+          Total impayé : <span class="text-danger">{{ totalAll }} TND</span>
+        </div>
+        <div class="d-flex gap-2 justify-content-end">
+          <button class="btn btn-success" [disabled]="selectedFactures.size === 0" (click)="paySelected()">
+            <i class="fab fa-cc-stripe"></i> Payer la sélection
+          </button>
+          <button class="btn btn-primary" [disabled]="unpaidFactures.length === 0" (click)="payAll()">
+            <i class="fab fa-cc-stripe"></i> Payer tout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

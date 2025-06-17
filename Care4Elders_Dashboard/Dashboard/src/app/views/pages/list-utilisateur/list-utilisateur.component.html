@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="main-box clearfix">
+          <div class="table-responsive">
+            <table class="table user-list">
+              <thead>
+                <tr>
+                  <th><span>Nom d'utilisateur</span></th>
+                  <th><span>Rôle</span></th>
+                  <th class="text-center"><span>Téléphone</span></th>
+                  <th><span>Date de naissance</span></th>
+                  <th><span>Email </span></th>
+                  <th><span>Détails spécifiques</span></th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of utilisateurs">
+                  <td>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/user.png" alt="Icône utilisateur" style="width:40px; height:40px; border-radius:50%;">
+
+                    <!--<label for="fileInput">
+                      <img [src]="selectedImageUrl"
+                           alt="Avatar utilisateur"
+                           class="rounded-circle"
+                           style="cursor: pointer; width: 50px; height: 50px; object-fit: cover;">
+                    </label>-->
+                    
+                    <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden accept="image/*">
+                    <a href="#" class="user-link">{{ user.username }}</a>
+                    <span class="user-subhead">{{ user.role }}</span>
+                  </td>
+                  <td>
+                    {{ user.role }}
+                  </td>
+                  <td class="text-center">
+                    {{ user.phoneNumber }}
+                  </td>
+                  <td class="text-center">
+                    <span class="label label-default">{{ user.dateOfBirth | date: 'yyyy-MM-dd' }}</span>
+                  </td>
+                  <td>
+                    <a href="#">{{ user.email }}</a>
+                  </td>
+                 <!-- Colonne dynamique selon le rôle -->
+    <td>
+        <div *ngIf="user.role === 'PATIENT'">
+          Adresse : {{ user.adressePatient }}<br>
+          Dossier médical :
+          <a *ngIf="user.dossierMedicalPdf" [href]="user.dossierMedicalPdf" target="_blank">Voir PDF</a>
+        </div>
+  
+        <div *ngIf="user.role === 'MEDECIN'">
+          Spécialité : {{ user.specialite }}<br>
+          Numéro d'ordre : {{ user.numeroOrdre }}<br>
+          Diplôme :
+          <a *ngIf="user.fichierDiplome" [href]="user.fichierDiplome" target="_blank">Voir PDF</a>
+        </div>
+  
+        <div *ngIf="user.role === 'AIDANT'">
+          Adresse : {{ user.adresseAidant }}<br>
+          Carte d'identité :
+          <a *ngIf="user.cartedIentite" [href]="user.cartedIentite" target="_blank">Voir</a>
+        </div>
+      </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+          <ul class="pagination pull-right">
+            <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  

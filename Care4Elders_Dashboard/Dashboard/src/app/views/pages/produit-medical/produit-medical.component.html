@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="form-section">
+    <h2>{{ editingProduitId ? 'Modifier un produit' : 'Ajouter un produit médical' }}</h2>
+
+    <form [formGroup]="produitForm" (ngSubmit)="onSubmit()">
+      <label>Description</label>
+      <textarea formControlName="descriptionProduit" placeholder="Description"></textarea>
+      <div *ngIf="produitForm.get('descriptionProduit')?.invalid && produitForm.get('descriptionProduit')?.touched">
+        <small class="error">La description est obligatoire.</small>
+      </div>
+
+      <label>Prix</label>
+      <input type="number" formControlName="prix" placeholder="Prix" />
+      <div *ngIf="produitForm.get('prix')?.invalid && produitForm.get('prix')?.touched">
+        <small class="error">Le prix doit être un nombre positif.</small>
+      </div>
+
+      <label>Quantité</label>
+      <input type="number" formControlName="qt" placeholder="Quantité" />
+      <div *ngIf="produitForm.get('qt')?.invalid && produitForm.get('qt')?.touched">
+        <small class="error">La quantité doit être un nombre positif.</small>
+      </div>
+
+      <label>Région</label>
+<input type="text" formControlName="region" placeholder="Région" />
+<div *ngIf="produitForm.get('region')?.invalid && produitForm.get('region')?.touched">
+  <small class="error">La région est obligatoire.</small>
+</div>
+      
+
+      <label>Image du produit </label>
+      <input type="file" (change)="onImageProduitSelected($event)" />
+      <div *ngIf="imageProduitFile">
+        <small>{{ imageProduitFile.name }}</small>
+      </div>
+
+      <label>Image OCR (obligatoire)</label>
+      <input type="file" (change)="onImageOcrSelected($event)" required />
+      <div *ngIf="!imageOcrFile">
+        <small class="error">L'image OCR est obligatoire.</small>
+      </div>
+
+      <button type="submit" class="btn-add" [disabled]="produitForm.invalid || !imageOcrFile">
+        {{ editingProduitId ? 'Mettre à jour' : 'Ajouter' }}
+      </button>
+    
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <div class="table-section">
+    <h2>Liste des produits</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Prix</th>
+          <th>Qté</th>
+          <th>Région</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let produit of produits">
+          <td>{{ produit.nomProduit }}</td>
+          <td>{{ produit.descriptionProduit }}</td>
+          <td>{{ produit.prix }} €</td>
+          <td>{{ produit.qt }}</td>
+          <td>{{ produit.region }}</td>
+
+          <td>
+            <button class="btn-edit" (click)="editProduit(produit)">✏️</button>
+            <button class="btn-delete" (click)="deleteProduit(produit.id)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <h1 class="display-3 text-white mb-3 animated slideInDown">Paiement Réussi</h1>
+    <nav aria-label="breadcrumb animated slideInDown">
+      <ol class="breadcrumb text-uppercase mb-0">
+        <li class="breadcrumb-item"><a class="text-white" [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item text-primary active" aria-current="page">Payment Success</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<div class="container mb-5">
+  <div class="success-container text-center">
+    <div class="success-icon mb-4">
+      <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+    </div>
+    <h2 class="mb-4">Paiement effectué avec succès!</h2>
+    <p class="mb-4">Votre commande a été confirmée et sera traitée dans les plus brefs délais.</p>
+    
+    <!-- Download Button -->
+    <div class="mt-4">
+      <button class="btn btn-primary btn-lg" (click)="downloadBill()" [disabled]="isDownloading">
+        <i class="fas" [class.fa-download]="!isDownloading" [class.fa-spinner]="isDownloading" [class.fa-spin]="isDownloading"></i>
+        {{ isDownloading ? 'Téléchargement...' : 'Télécharger la Facture' }}
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="mt-5">
+      <button *ngIf="isCareFacture" class="btn btn-outline-primary me-3" [routerLink]="['/care']">
+        Retour aux demandes de soin
+      </button>
+      <button *ngIf="!isCareFacture" class="btn btn-outline-primary me-3" [routerLink]="['/ListeProduit']">
+        Continuer les achats
+      </button>
+      <button class="btn btn-outline-secondary" [routerLink]="['/']">
+        Retour à l'accueil
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

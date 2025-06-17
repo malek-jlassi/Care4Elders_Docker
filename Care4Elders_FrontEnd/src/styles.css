@@ -1,0 +1,220 @@
+/* Import statements must come first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Base */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Card Header --- */
+.card-header {
+    background-color: #f1f3f5;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card-header .icon-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 12px;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* --- Table --- */
+.table {
+    font-size: 14px;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    width: 100%;
+}
+
+.table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    padding: 12px;
+}
+
+.table td {
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tr:hover td {
+    background-color: #f8f9fc;
+}
+
+/* --- Button Group (Filtres) --- */
+.btn-group button {
+    margin-left: 5px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 6px 14px;
+}
+
+.btn-group .active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.4);
+}
+
+.btn-group button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* --- Card Body & Form --- */
+.card-body {
+    padding: 1.25rem;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.03);
+}
+
+.card-body form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-body input,
+.card-body select,
+.card-body textarea {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.card-body input:focus,
+.card-body select:focus,
+.card-body textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* --- Boutons d'action (Edit/Delete) --- */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.action-buttons .btn {
+    border-radius: 6px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-buttons .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+}
+
+.action-buttons .btn-warning:hover {
+    background-color: #e0a800;
+    transform: translateY(-1px);
+}
+
+.action-buttons .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.action-buttons .btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* --- Badges de statut --- */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: capitalize;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Page Header (si présent) --- */
+.page-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+}
+
+/* --- Maladie Box (custom list) --- */
+.maladie-box {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.maladie-box:hover {
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.05);
+    background-color: #e2e6ea;
+}
+
+.maladie-box .form-check-input {
+    width: 18px;
+    height: 18px;
+}
+
+.maladie-box .form-check-label {
+    font-weight: 500;
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+.form-select {
+    padding-right: 1.5rem; /* Increase right padding to move text left from arrow */
+}
+  

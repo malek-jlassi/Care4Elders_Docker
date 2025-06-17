@@ -1,0 +1,520 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.container {
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 0 15px;
+}
+
+.delivery-bill-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Product Summary Styles */
+.product-summary {
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.product-summary h2,
+.delivery-form h2 {
+  color: #ffffff;
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #0d6efd, #3d8bfd);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.product-summary h2::before,
+.delivery-form h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1.4rem;
+  background: #ffffff;
+  margin-right: 0.8rem;
+  border-radius: 2px;
+}
+
+.product-card {
+  display: flex;
+  gap: 1.2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.product-image {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-details {
+  flex: 1;
+}
+
+.product-details h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.product-details p {
+  margin: 0.4rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.product-details .price {
+  color: #8b0000;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: #fff3f3;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.product-details .subtotal {
+  color: #007b8b;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: #e8f6f8;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* Delivery Form Styles */
+.delivery-form {
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Field Organization */
+.form-group {
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* Field Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+}
+
+/* Form Controls */
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: white;
+  color: #2c3e50;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+/* Pre-filled Fields */
+.form-control[readonly] {
+  background-color: #f8f9fa;
+  border: 1px solid #e2e2e2;
+  color: #495057;
+  cursor: default;
+  font-weight: 500;
+}
+
+.form-control[readonly]:focus {
+  border-color: #e1e1e1;
+  box-shadow: none;
+}
+
+/* Full Width Fields */
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Address Field */
+.form-control.address {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Field Groups */
+.field-group {
+  border: 1px solid rgba(13, 110, 253, 0.2);
+  padding: 1.2rem;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.1);
+}
+
+.field-group-title {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin: -1.2rem -1.2rem 1rem -1.2rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px 10px 0 0;
+  font-weight: 600;
+  background: linear-gradient(45deg, #0d6efd, #3d8bfd);
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+.field-group-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1.1rem;
+  background: #ffffff;
+  margin-right: 0.8rem;
+  border-radius: 2px;
+}
+
+/* Contact Information Group */
+.contact-info {
+  border-color: rgba(13, 110, 253, 0.3);
+}
+
+/* Delivery Information Group */
+.delivery-info {
+  border-color: rgba(13, 110, 253, 0.3);
+}
+
+/* Cost Summary Styles */
+.cost-summary {
+  background: white;
+  padding: 1.2rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.cost-item:last-child {
+  border-bottom: none;
+}
+
+.cost-item.total {
+  border-top: 2px solid #ddd;
+  margin-top: 0.8rem;
+  padding-top: 1rem;
+  font-weight: 700;
+  color: #8b0000;
+  font-size: 1.2rem;
+  background: #fff3f3;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: -0.5rem;
+}
+
+/* Submit Button Styles */
+.submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(45deg, #0d6efd, #3d8bfd);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(45deg, #0b5ed7, #3d8bfd);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(13, 110, 253, 0.2);
+}
+
+.submit-btn:disabled {
+  background: linear-gradient(45deg, #ccc, #ddd);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.submit-btn.loading {
+  padding-right: 2.5rem;
+}
+
+.submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Alert Styles */
+.alert {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.alert-danger {
+  background-color: #fff3f3;
+  color: #dc3545;
+  border: 1px solid #ffcdd2;
+}
+
+.alert-danger::before {
+  content: '⚠️';
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .delivery-bill-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .product-card {
+    flex-direction: row;
+  }
+  
+  .product-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .cost-summary {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 0 10px;
+    margin: 1rem auto;
+  }
+
+  .product-summary,
+  .delivery-form {
+    padding: 1rem;
+  }
+
+  .cost-item {
+    font-size: 0.9rem;
+  }
+
+  .cost-item.total {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .field-group {
+    padding: 1rem;
+  }
+  
+  .form-control {
+    padding: 0.7rem 0.9rem;
+  }
+}
+
+/* Form Validation States */
+.form-control.is-valid {
+  border-color: #28a745;
+  background-color: #fff;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  background-color: #fff;
+}
+
+.validation-message {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  bottom: -1.2rem;
+}
+
+.validation-message.error {
+  color: #dc3545;
+}
+
+.validation-message.success {
+  color: #28a745;
+}
+
+/* Editable Form Controls */
+.delivery-info .form-control {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.delivery-info .form-control:hover {
+  border-color: #0d6efd;
+}
+
+.delivery-info .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  background-color: #ffffff;
+}
+
+.delivery-info .form-control::placeholder {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+/* Required Field Labels */
+.delivery-info label::after {
+  content: ' *';
+  color: #dc3545;
+}
+
+/* Validation Styles */
+.form-control.is-invalid {
+  border-color: #dc3545;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+.form-control.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.validation-message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  color: #dc3545;
+}
+
+.validation-message.error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.validation-message.error::before {
+  content: '⚠️';
+  font-size: 0.875rem;
+}
+
+/* Contact Information Fields */
+.contact-info .form-control {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  min-height: 45px;
+}
+
+.contact-info .form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Full Name Field Specific */
+#fullName {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  min-height: 45px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Make the full name field container full width */
+.contact-info .form-row .form-group:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Phone field takes remaining space */
+.contact-info .form-row .form-group:last-child {
+  grid-column: 1 / -1;
+} 

@@ -1,0 +1,16 @@
+# Ignore node_modules (Angular)
+Care4Elders_FrontEnd/node_modules/
+
+# Ignore build files
+front/frontend-app/dist/
+
+# Ignore IDE files
+.idea/
+Care4Elders_BackEnd/.idea/
+.vscode/
+
+# Ignore target folder (Spring Boot compiled files)
+#back/backend-app/target/
+
+# Ignore system files
+*.log

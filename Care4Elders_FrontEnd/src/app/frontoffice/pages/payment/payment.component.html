@@ -1,0 +1,22 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<div class="payment-container">
+  <h2>Paiement Sécurisé</h2>
+  <div class="payment-details">
+    <p>Montant à payer: {{ amount.toFixed(3) }} TND</p>
+  </div>
+  
+  <!-- Formulaire de carte Stripe -->
+  <form id="payment-form" (submit)="handleSubmit($event)">
+    <div id="card-element"></div>
+    <div id="card-errors" role="alert"></div>
+    
+    <button type="submit" [disabled]="isLoading" class="payment-button">
+      <span *ngIf="!isLoading">Payer {{ amount.toFixed(3) }} TND</span>
+      <span *ngIf="isLoading">Traitement en cours...</span>
+    </button>
+  </form>
+</div>
+
+<app-footer></app-footer>

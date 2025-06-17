@@ -1,0 +1,142 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <h1 class="display-3 text-white mb-3 animated slideInDown">Bon de Livraison</h1>
+    <nav aria-label="breadcrumb animated slideInDown">
+      <ol class="breadcrumb text-uppercase mb-0">
+        <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+        <li class="breadcrumb-item"><a class="text-white" href="#">Products</a></li>
+        <li class="breadcrumb-item text-primary active" aria-current="page">Delivery Bill</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<div class="container">
+  <div class="delivery-bill-container">
+    <!-- Product Summary Section -->
+    <div class="product-summary">
+      <h2>Résumé de la Commande</h2>
+      <div class="product-card">
+        <div class="product-image">
+          <img [src]="'http://localhost:9091' + productDetails.image" [alt]="productDetails.nomProduit">
+        </div>
+        <div class="product-details">
+          <h3>{{ productDetails.nomProduit }}</h3>
+          <p class="description">{{ productDetails.descriptionProduit }}</p>
+          <p class="region"><strong>Région:</strong> {{ productDetails.region }}</p>
+          <p class="quantity"><strong>Quantité:</strong> {{ productDetails.qt }}</p>
+          <p class="price"><strong>Prix unitaire:</strong> {{ productDetails.prix.toFixed(3) }} TND</p>
+          <p class="subtotal"><strong>Sous-total:</strong> {{ (productDetails.prix * productDetails.qt).toFixed(3) }} TND</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Form Section -->
+    <div class="delivery-form">
+      <h2>Informations de Livraison</h2>
+      
+      <!-- Error Message -->
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #deliveryForm="ngForm">
+        <!-- Contact Information Group -->
+        <div class="field-group contact-info">
+          <h3 class="field-group-title">Informations de Contact</h3>
+          <div class="form-group">
+            <label for="fullName">Nom Complet</label>
+            <input type="text" id="fullName" name="fullName" class="form-control" 
+                   [(ngModel)]="deliveryInfo.fullName" required readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Numéro de Téléphone</label>
+            <input type="tel" id="phone" name="phone" class="form-control" 
+                   [(ngModel)]="deliveryInfo.phone" required readonly>
+          </div>
+        </div>
+
+        <!-- Delivery Information Group -->
+        <div class="field-group delivery-info">
+          <h3 class="field-group-title">Informations de Livraison</h3>
+          <div class="form-group full-width">
+            <label for="address">Adresse de Livraison</label>
+            <input type="text" id="address" name="address" class="form-control address" 
+                   [(ngModel)]="deliveryInfo.address" required
+                   [class.is-invalid]="deliveryForm.submitted && deliveryForm.form.get('address')?.invalid"
+                   placeholder="Entrez votre adresse de livraison">
+            <div class="validation-message error" *ngIf="deliveryForm.submitted && deliveryForm.form.get('address')?.invalid">
+              L'adresse de livraison est requise
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">Ville</label>
+              <input type="text" id="city" name="city" class="form-control" 
+                     [(ngModel)]="deliveryInfo.city" required
+                     [class.is-invalid]="deliveryForm.submitted && deliveryForm.form.get('city')?.invalid"
+                     placeholder="Entrez votre ville">
+              <div class="validation-message error" *ngIf="deliveryForm.submitted && deliveryForm.form.get('city')?.invalid">
+                La ville est requise
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="postalCode">Code Postal</label>
+              <input type="text" id="postalCode" name="postalCode" class="form-control" 
+                     [(ngModel)]="deliveryInfo.postalCode" required pattern="[0-9]{4}"
+                     [class.is-invalid]="deliveryForm.submitted && deliveryForm.form.get('postalCode')?.invalid"
+                     placeholder="Ex: 2034">
+              <div class="validation-message error" *ngIf="deliveryForm.submitted && deliveryForm.form.get('postalCode')?.invalid">
+                Code postal invalide (4 chiffres requis)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Instructions -->
+        <div class="field-group">
+          <h3 class="field-group-title">Instructions Spéciales</h3>
+          <div class="form-group full-width">
+            <label for="specialInstructions">Instructions pour le Livreur (optionnel)</label>
+            <textarea id="specialInstructions" name="specialInstructions" class="form-control" 
+                      [(ngModel)]="deliveryInfo.specialInstructions" rows="3"
+                      placeholder="Ex: Sonner avant la livraison, Appeler si absent..."></textarea>
+          </div>
+        </div>
+
+        <!-- Cost Summary -->
+        <div class="cost-summary">
+          <div class="cost-item">
+            <span>Sous-total ({{ productDetails.qt }} articles):</span>
+            <span>{{ (productDetails.prix * productDetails.qt).toFixed(3) }} TND</span>
+          </div>
+          <div class="cost-item">
+            <span>Frais de Livraison ({{ (deliveryCost / 0.8).toFixed(1) }} km):</span>
+            <span>{{ deliveryCost.toFixed(3) }} TND</span>
+          </div>
+          <div class="cost-item total">
+            <span>Total à payer:</span>
+            <span>{{ calculateTotal().toFixed(3) }} TND</span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="!deliveryForm.form.valid || isLoading" 
+                [class.loading]="isLoading">
+          <span *ngIf="!isLoading">Confirmer la Commande</span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Traitement en cours...
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer> 

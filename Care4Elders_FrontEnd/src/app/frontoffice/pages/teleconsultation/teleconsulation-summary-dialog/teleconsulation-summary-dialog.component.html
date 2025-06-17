@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Confirm Teleconsultation</h2>
+<mat-dialog-content>
+  <p><strong>Doctor:</strong> {{ doctorName }}</p>
+  <p><strong>Patient:</strong> {{ patientName }}</p>
+  <p><strong>Date:</strong> {{ data.consultationDate | date:'short' }}</p>
+  <p><strong>Duration:</strong> {{ data.durationMinutes }} minutes</p>
+  <p><strong>Notes:</strong> {{ data.notes || 'None' }}</p>
+  <p><strong>Video Link:</strong> <a href="{{ data.videoLink }}" target="_blank">{{ data.videoLink }}</a></p>
+
+  <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+  <p *ngIf="error" class="error">{{ error }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="confirm()" [disabled]="loading">Confirm</button>
+</mat-dialog-actions>
