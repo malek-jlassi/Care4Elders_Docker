@@ -151,16 +151,26 @@ export class DeliveryBillComponent implements OnInit {
     console.log('Submitting order with user ID:', this.userId);
 
     const deliveryData = {
-      productId: this.productDetails.id,
-      nomProduit: this.productDetails.nomProduit,
-      descriptionProduit: this.productDetails.descriptionProduit,
+      user: {
+        id: this.userId,
+        name: this.deliveryInfo.fullName,
+        email: '', // You can fill this if you have it
+        phone: this.deliveryInfo.phone
+      },
       region: this.productDetails.region,
-      prix: this.productDetails.prix,
-      qt: this.productDetails.qt,
-      image: this.productDetails.image,
-      userId: this.userId,
-      status: 'PENDING',
-      deliveryInfo: this.deliveryInfo
+      distanceInKm: 0, // Optionally set if you have it from deliveryCost API
+      orderItems: [
+        {
+          product: {
+            id: this.productDetails.id,
+            name: this.productDetails.nomProduit,
+            price: this.productDetails.prix,
+            description: this.productDetails.descriptionProduit,
+            imageUrl: this.productDetails.image
+          },
+          quantity: this.productDetails.qt
+        }
+      ]
     };
 
     this.isLoading = true;

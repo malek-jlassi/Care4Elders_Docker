@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,19 +15,12 @@ import java.time.LocalDateTime;
 public class DeliveryBill {
     @Id
     private String id;
-    private String nomProduit;
-    private String descriptionProduit;
+    private User user;
     private String region;
-    private double prix;
-    private int qt;
-    private String image;
-    private String status;
     private double distanceInKm;
-    private double deliveryCost;
-    private double totalPrice;
-    private Location userLocation;
-    private Location destinationLocation;
+    private List<OrderItem> orderItems;
+    private double totalAmount;
+    private PaymentStatus status;
     private LocalDateTime createdAt;
-    private String userId;
-    private DeliveryStatus orderStatus;
-} 
+    private String paymentId;
+}
