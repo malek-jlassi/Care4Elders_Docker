@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../services/user.service';
+import { UtilisateurService } from '../../../services/utilisateur.service';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +9,9 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(public userService: UserService) {}
+  constructor(public utilisateurService: UtilisateurService) {}
 
   logout() {
-    this.userService.logout();
+    this.utilisateurService.logout();
   }
 }

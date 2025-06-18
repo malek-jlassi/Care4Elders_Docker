@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UserService } from '../../../services/user.service';
+import { UtilisateurService } from '../../../services/utilisateur.service';
 
 @Component({
   standalone: true,
@@ -11,8 +11,8 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(public userService: UserService) {}
+  constructor(public utilisateurService: UtilisateurService) {}
   logout() {
-    this.userService.logout();
+    this.utilisateurService.logout();
   }
 }

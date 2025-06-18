@@ -37,8 +37,8 @@
                 </div>
             <a href="contact.html" class="nav-item nav-link">Contact</a>
         </div>
-        <ng-container *ngIf="userService.getUser(); else loginBtn">
-  <button (click)="logout()" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
+        <ng-container *ngIf="utilisateurService.getUser(); else loginBtn">
+  <button (click)="utilisateurService.logout()" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
     Logout<i class="fa fa-sign-out-alt ms-3"></i>
   </button>
 </ng-container>

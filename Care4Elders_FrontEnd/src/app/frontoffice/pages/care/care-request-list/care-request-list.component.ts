@@ -7,7 +7,7 @@ import { BillingService } from '../../../../services/facture.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { AuthService } from '../../../../services/Auth.service';
 import { RouterModule } from '@angular/router';
-import { UserService } from '../../../../services/user.service';
+import { UtilisateurService } from '../../../../services/utilisateur.service';
 
 @Component({
   selector: 'app-care-request-list',
@@ -32,11 +32,11 @@ currentPage = 1;
     private careRequestService: CareRequestService,
     private billingService: BillingService,
     private authService: AuthService,
-    private userService: UserService
+    private utilisateurService: UtilisateurService
   ) {}
 
   ngOnInit(): void {
-    const user = this.userService.getUser();
+    const user = this.utilisateurService.getUser();
     if (user && user.id) {
       this.loadData(user.id);
     } else {

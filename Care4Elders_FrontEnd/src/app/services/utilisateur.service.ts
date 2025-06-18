@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { Utilisateur } from '../models/Utilisateur.model';
+
+export interface UserDTO {
+  id: string;
+  name: string;
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +16,23 @@ import { Utilisateur } from '../models/Utilisateur.model';
 export class UtilisateurService {
   private apiUrl = 'http://localhost:8080/api/utilisateur';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+
+  // Session/user methods migrated from UserService
+  setUser(user: Utilisateur): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  getUser(): Utilisateur | null {
+    const userStr = localStorage.getItem('currentUser');
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  logout(): void {
+    localStorage.clear();
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
   inscrireUtilisateur(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/inscription`, formData);
@@ -17,6 +40,10 @@ export class UtilisateurService {
   
   getAll(): Observable<Utilisateur[]> {
     return this.http.get<Utilisateur[]>(`${this.apiUrl}/afficherListeUtilisateurs`);
+  }
+
+  getAllUsers(): Observable<Utilisateur[]> {
+    return this.getAll();
   }
 
   getPatients(): Observable<Utilisateur[]> {
@@ -54,4 +81,8 @@ export class UtilisateurService {
       nouveauMotDePasse
     });
   }
+
+   getUserById(id: string): Observable<UserDTO> {
+      return this.http.get<UserDTO>(`${this.apiUrl}/afficherUtilisateurParId/${id}`);
+    }
 }

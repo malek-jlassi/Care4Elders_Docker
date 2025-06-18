@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../../services/user.service';
+import { UtilisateurService } from '../../../../services/utilisateur.service';
 
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { firstValueFrom } from 'rxjs';
-import { UtilisateurService } from '../../../../services/utilisateur.service';
+
 import { Utilisateur } from '../../../../models/Utilisateur.model';
 import { Teleconsultation } from '../../../../models/teleconsultation.model';
 import { TeleconsultationService } from '../../../../services/teleconsultation.service';
@@ -38,7 +38,7 @@ import { FooterComponent } from '../../../../shared/layout/footer/footer.compone
   ]
 })
 export class TeleconsultationListComponent implements OnInit {
-  constructor(private userService: UserService, private teleconsultationService: TeleconsultationService, private utilisateurService: UtilisateurService, private router: Router) {}
+  constructor(private utilisateurService: UtilisateurService, private teleconsultationService: TeleconsultationService, private router: Router) {}
 
   teleconsultations: Teleconsultation[] = [];
   isLoading = false;
@@ -50,7 +50,7 @@ export class TeleconsultationListComponent implements OnInit {
   patients: Utilisateur[] = [];
 
   ngOnInit(): void {
-    const user = this.userService.getUser();
+    const user = this.utilisateurService.getUser();
     if (user && user.id) {
       this.fetchTeleconsultations(user.id);
     } else {
@@ -83,7 +83,7 @@ export class TeleconsultationListComponent implements OnInit {
   }
 
   loadTeleconsultations(): void {
-    const user = this.userService.getUser();
+    const user = this.utilisateurService.getUser();
     if (user && user.id) {
       this.fetchTeleconsultations(user.id);
     } else {

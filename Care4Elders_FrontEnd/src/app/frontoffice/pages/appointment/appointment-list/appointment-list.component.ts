@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../../services/user.service';
+
 import { RouterModule } from '@angular/router';
 
 import { MatTableModule } from '@angular/material/table';
@@ -11,8 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { UtilisateurService } from '../../../../services/utilisateur.service';
 import { Utilisateur } from '../../../../models/Utilisateur.model';
+import { UtilisateurService } from '../../../../services/utilisateur.service';
+
 import { AppointmentService } from '../../../../services/appointment.service';
 import { Appointment } from '../../../../models/appointment.model';
 
@@ -21,6 +22,7 @@ import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confir
 import { FooterComponent } from '../../../../shared/layout/footer/footer.component';
 import { NavbarComponent } from '../../../../shared/layout/navbar/navbar.component';
 import { TopbarComponent } from '../../../../shared/layout/topbar/topbar.component';
+
 
 @Component({
   selector: 'app-appointment-list',
@@ -52,15 +54,14 @@ export class AppointmentListComponent implements OnInit {
   patients: Utilisateur[] = [];
 
   constructor(
-    private userService: UserService,
+    private utilisateurService: UtilisateurService,
     private appointmentService: AppointmentService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private utilisateurService: UtilisateurService
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    const user = this.userService.getUser();
+    const user = this.utilisateurService.getUser();
     if (user && user.id) {
       this.fetchAppointments(user.id);
     } else {
@@ -77,8 +78,8 @@ export class AppointmentListComponent implements OnInit {
       firstValueFrom(this.utilisateurService.getPatients())
     ])
     .then(([doctors, patients]) => {
-      this.doctors = doctors;
-      this.patients = patients;
+      this.doctors = doctors as Utilisateur[];
+      this.patients = patients as Utilisateur[];
       if (!userId) {
         // Not logged in: appointments should be empty and loading should stop
         this.appointments = [];
@@ -115,7 +116,7 @@ export class AppointmentListComponent implements OnInit {
   }
 
   loadAppointments(): void {
-    const user = this.userService.getUser();
+    const user = this.utilisateurService.getUser();
     if (user && user.id) {
       this.fetchAppointments(user.id);
     } else {

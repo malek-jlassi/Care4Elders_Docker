@@ -7,7 +7,7 @@ import { TopbarComponent } from '../../../shared/layout/topbar/topbar.component'
 import { NavbarComponent } from '../../../shared/layout/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/layout/footer/footer.component';
 import { AuthService } from '../../../services/Auth.service';
-import { UserService } from '../../../services/user.service';
+import { UtilisateurService } from '../../../services/utilisateur.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +33,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private userService: UserService
+    private utilisateurService: UtilisateurService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,13 +52,13 @@ export class LoginComponent {
           this.isLoading = false;
           // If response already contains full user info (id, name, role), save directly
           if (response && response.id && response.name && response.role) {
-            this.userService.setUser(response);
+            this.utilisateurService.setUser(response);
             this.router.navigate(['/']);
           } else if (response && response.id) {
             // Otherwise, fetch user details using the returned userId
-            this.userService.getUserById(response.id).subscribe({
+            this.utilisateurService.getById(response.id).subscribe({
               next: (user) => {
-                this.userService.setUser(user);
+                this.utilisateurService.setUser(user);
                 this.router.navigate(['/']);
               },
               error: () => {
