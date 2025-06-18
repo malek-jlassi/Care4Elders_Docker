@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../../services/user.service';
 
 import { Router } from '@angular/router';
 
@@ -37,6 +38,8 @@ import { FooterComponent } from '../../../../shared/layout/footer/footer.compone
   ]
 })
 export class TeleconsultationListComponent implements OnInit {
+  constructor(private userService: UserService, private teleconsultationService: TeleconsultationService, private utilisateurService: UtilisateurService, private router: Router) {}
+
   teleconsultations: Teleconsultation[] = [];
   isLoading = false;
   errorMessage = '';
@@ -46,49 +49,66 @@ export class TeleconsultationListComponent implements OnInit {
   doctors: Utilisateur[] = [];
   patients: Utilisateur[] = [];
 
-  constructor(private service: TeleconsultationService, private utilisateurService: UtilisateurService, private router: Router) {}
-
   ngOnInit(): void {
-  this.isLoading = true;
-  this.errorMessage = '';
-
-  Promise.all([
-    firstValueFrom(this.utilisateurService.getDoctors()),
-    firstValueFrom(this.utilisateurService.getPatients())
-  ])
-  .then(([doctors, patients]) => {
-    this.doctors = doctors;
-    this.patients = patients;
-    this.loadTeleconsultations();
-  })
-  .catch(() => {
-    this.errorMessage = 'Failed to load teleconsultations.';
-    this.isLoading = false;
-  });
-}
-
-
-
-
-  loadTeleconsultations(): void {
-  this.isLoading = true;
-  this.errorMessage = '';
-  const page = 0;
-  const size = 10;
-
-  this.service.getAll(page, size).subscribe({
-    next: data => {
-      this.teleconsultations = data.content; // <--- accès au contenu réel
-      this.isLoading = false;
-    },
-    error: () => {
-      this.errorMessage = 'Failed to load teleconsultations.';
+    const user = this.userService.getUser();
+    if (user && user.id) {
+      this.fetchTeleconsultations(user.id);
+    } else {
+      // Not logged in: teleconsultations should be empty and loading should stop
+      this.teleconsultations = [];
       this.isLoading = false;
     }
-  });
-}
+  }
+
+  fetchTeleconsultations(userId: string): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    if (!userId) {
+      // Not logged in: teleconsultations should be empty and loading should stop
+      this.teleconsultations = [];
+      this.isLoading = false;
+      return;
+    }
+    this.teleconsultationService.getTeleconsultationsByUser(userId).subscribe({
+      next: (data) => {
+        this.teleconsultations = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load teleconsultations from server.';
+        this.isLoading = false;
+        console.error('Error loading teleconsultations:', error);
+      }
+    });
+  }
+
+  loadTeleconsultations(): void {
+    const user = this.userService.getUser();
+    if (user && user.id) {
+      this.fetchTeleconsultations(user.id);
+    } else {
+      // Not logged in: teleconsultations should be empty and loading should stop
+      this.teleconsultations = [];
+      this.isLoading = false;
+    }
+  }
+
+  getFormattedDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  }
 
 
+  deleteTeleconsultation(id: string): void {
+    this.teleconsultationService.delete(id).subscribe({
+      next: () => {
+        this.loadTeleconsultations();
+      },
+      error: () => {
+        this.errorMessage = 'Failed to delete teleconsultation.';
+      }
+    });
+  }
 
   getStatusLabel(status: string): string {
     const map: any = {
@@ -109,32 +129,17 @@ export class TeleconsultationListComponent implements OnInit {
     }[status] || '';
   }
 
-  /*confirmDelete(t: Teleconsultation): void {
-  // Vérifie si l'id est défini avant de procéder à la suppression
-  if (t.id) {
-    const date = t.consultationDate.split('T')[0];
-    const heure = t.consultationDate.split('T')[1]?.substring(0, 5);
-
-    if (confirm(`Delete teleconsultation on ${date} at ${heure}?`)) {
-      this.service.delete(t.id).subscribe(() => this.loadTeleconsultations());
+  confirmDelete(teleconsultation: Teleconsultation): void {
+    if (!teleconsultation.id) {
+      console.error('Teleconsultation id is undefined.');
+      return;
     }
-  } else {
-    console.error('Teleconsultation id is undefined.');
+    const date = teleconsultation.consultationDate.split('T')[0];
+    const heure = teleconsultation.consultationDate.split('T')[1]?.substring(0, 5);
+    if (confirm(`Delete teleconsultation on ${date} at ${heure}?`)) {
+      this.teleconsultationService.delete(teleconsultation.id).subscribe(() => this.loadTeleconsultations());
+    }
   }
-}*/
-confirmDelete(t: Teleconsultation): void {
-  if (!t.id) {
-    console.error('Teleconsultation id is undefined.');
-    return;
-  }
-
-  const date = t.consultationDate.split('T')[0];
-  const heure = t.consultationDate.split('T')[1]?.substring(0, 5);
-
-  if (confirm(`Delete teleconsultation on ${date} at ${heure}?`)) {
-    this.service.delete(t.id).subscribe(() => this.loadTeleconsultations());
-  }
-}
 
 
   getPatientName(patientId: string): string {

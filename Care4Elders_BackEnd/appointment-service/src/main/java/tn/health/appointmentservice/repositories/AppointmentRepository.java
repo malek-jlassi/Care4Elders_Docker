@@ -6,4 +6,5 @@ import tn.health.appointmentservice.entities.Appointment;
 
 @Repository
 public interface AppointmentRepository extends MongoRepository<Appointment, String> {
+    java.util.List<Appointment> findByPatientId(String patientId);
 }

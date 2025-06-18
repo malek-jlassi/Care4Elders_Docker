@@ -33,6 +33,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TeleconsultationServiceImpl implements ITeleconsultationService {
 
+    @Override
+    public List<TeleconsultationDTO> getTeleconsultationsByUser(String userId) {
+        List<Teleconsultation> teleconsultations = teleconsultationRepository.findByPatientId(userId);
+        return teleconsultationMapper.mapToDtoList(teleconsultations);
+    }
+
     @Autowired
     private  TeleconsultationRepository teleconsultationRepository;
    @Autowired

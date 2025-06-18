@@ -186,6 +186,10 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     if (this.appointmentForm.invalid) {
       this.markFormGroupTouched(this.appointmentForm);
       return;

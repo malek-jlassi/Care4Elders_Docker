@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../../services/user.service';
 import { RouterModule } from '@angular/router';
 
 import { MatTableModule } from '@angular/material/table';
@@ -47,58 +48,81 @@ export class AppointmentListComponent implements OnInit {
   displayedColumns: string[] = ['date', 'patientId', 'doctorId', 'type', 'status', 'durationMinutes', 'actions'];
   isLoading = true;
   errorMessage = '';
-
-  constructor(
-    private appointmentService: AppointmentService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private utilisateurService: UtilisateurService,
-  ) { }
-
   doctors: Utilisateur[] = [];
   patients: Utilisateur[] = [];
 
+  constructor(
+    private userService: UserService,
+    private appointmentService: AppointmentService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private utilisateurService: UtilisateurService
+  ) {}
+
   ngOnInit(): void {
-  this.isLoading = true;
+    const user = this.userService.getUser();
+    if (user && user.id) {
+      this.fetchAppointments(user.id);
+    } else {
+      // Not logged in: appointments should be empty and loading should stop
+      this.appointments = [];
+      this.isLoading = false;
+    }
+  }
 
-  Promise.all([
-    firstValueFrom(this.utilisateurService.getDoctors()),
-    firstValueFrom(this.utilisateurService.getPatients())
-  ])
-  .then(([doctors, patients]) => {
-    this.doctors = doctors;
-    this.patients = patients;
-    this.loadAppointments();
-  })
-  .catch(() => {
-    this.errorMessage = 'Failed to load appointments. Please try again later.';
-    this.isLoading = false;
-  });
-}
+  fetchAppointments(userId: string): void {
+    this.isLoading = true;
+    Promise.all([
+      firstValueFrom(this.utilisateurService.getDoctors()),
+      firstValueFrom(this.utilisateurService.getPatients())
+    ])
+    .then(([doctors, patients]) => {
+      this.doctors = doctors;
+      this.patients = patients;
+      if (!userId) {
+        // Not logged in: appointments should be empty and loading should stop
+        this.appointments = [];
+        this.isLoading = false;
+        return;
+      }
+      this.appointmentService.getAppointmentsByUser(userId).subscribe({
+        next: (data) => {
+          this.appointments = data;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = 'Failed to load appointments from server.';
+          this.isLoading = false;
+          console.error('Error loading appointments:', error);
+        }
+      });
+    })
+    .catch((error) => {
+      this.errorMessage = 'Failed to load doctors or patients. Please try again later.';
+      this.isLoading = false;
+      console.error('Error loading doctors or patients:', error);
+    });
+  }
 
-getPatientName(patientId: string): string {
-  const patient = this.patients.find(p => p.id === patientId);
-  return patient ? patient.username : patientId;
-}
+  getPatientName(patientId: string): string {
+    const patient = this.patients.find(p => p.id === patientId);
+    return patient ? patient.username : patientId;
+  }
 
-getDoctorName(doctorId: string): string {
-  const doctor = this.doctors.find(d => d.id === doctorId);
-  return doctor ? doctor.username : doctorId;
-}
+  getDoctorName(doctorId: string): string {
+    const doctor = this.doctors.find(d => d.id === doctorId);
+    return doctor ? doctor.username : doctorId;
+  }
 
   loadAppointments(): void {
-    this.isLoading = true;
-    this.appointmentService.getAll().subscribe({
-      next: (data) => {
-        this.appointments = data;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to load appointments. Please try again later.';
-        this.isLoading = false;
-        console.error('Error loading appointments:', error);
-      }
-    });
+    const user = this.userService.getUser();
+    if (user && user.id) {
+      this.fetchAppointments(user.id);
+    } else {
+      // Not logged in: appointments should be empty and loading should stop
+      this.appointments = [];
+      this.isLoading = false;
+    }
   }
 
   getFormattedDate(dateString: string): string {

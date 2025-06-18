@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
+import { UserService } from '../../../services/user.service';
+
 @Component({
   standalone: true,
   selector: 'app-navbar',
@@ -9,5 +11,8 @@ import { RouterModule } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
+  constructor(public userService: UserService) {}
+  logout() {
+    this.userService.logout();
+  }
 }

@@ -16,6 +16,10 @@ export class TeleconsultationService {
     return this.http.get<any>(`${this.apiUrl}?pageNbr=${pageNbr}&pageSize=${pageSize}`);
   }
 
+  getTeleconsultationsByUser(userId: string): Observable<Teleconsultation[]> {
+    return this.http.get<Teleconsultation[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
   getById(id: string): Observable<Teleconsultation> {
     return this.http.get<Teleconsultation>(`${this.apiUrl}/${id}`);
   }

@@ -117,6 +117,10 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'login',
+    loadComponent: () => import('./frontoffice/Utilisateur/login/login.component').then(m => m.LoginComponent)
+  },
+  {
     path: 'teleconsultations',
     loadChildren: () =>
       import('./frontoffice/pages/teleconsultation/teleconsultation.module').then(

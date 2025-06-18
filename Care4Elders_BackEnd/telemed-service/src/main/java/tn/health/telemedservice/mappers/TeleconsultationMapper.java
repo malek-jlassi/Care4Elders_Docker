@@ -43,4 +43,9 @@ public interface TeleconsultationMapper {
     TeleconsultationDTO mapToDto(Teleconsultation entity);
 
 
+    default java.util.List<TeleconsultationDTO> mapToDtoList(java.util.List<Teleconsultation> entities) {
+        return entities.stream()
+                .map(this::mapToDto)
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

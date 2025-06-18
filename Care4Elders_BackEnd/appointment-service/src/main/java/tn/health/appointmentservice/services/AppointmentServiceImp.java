@@ -27,6 +27,11 @@ public class AppointmentServiceImp implements IAppointmentService{
         return appointmentRepository.findById(id);
     }
 
+    @Override
+    public List<Appointment> getAppointmentsByUser(String userId) {
+        return appointmentRepository.findByPatientId(userId);
+    }
+
     /*@Override
     public Appointment createAppointment(Appointment appointment) {
         appointment.setCreatedAt(LocalDateTime.now());

@@ -11,4 +11,5 @@ public interface IAppointmentService {
     Appointment createAppointment(Appointment appointment);
     Appointment updateAppointment(String id, Appointment updatedData) ;
     void deleteAppointment(String id);
+    List<Appointment> getAppointmentsByUser(String userId);
 }

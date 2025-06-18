@@ -118,6 +118,10 @@ export class TeleconsultationFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!localStorage.getItem('userData')) {
+      this.router.navigate(['/login']);
+      return;
+    }
     if (this.form.invalid) return;
 
     const formValues = this.form.value;

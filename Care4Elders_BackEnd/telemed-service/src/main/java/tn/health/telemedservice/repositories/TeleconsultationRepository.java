@@ -13,6 +13,7 @@ public interface TeleconsultationRepository  extends MongoRepository<Teleconsult
 
     Optional<Teleconsultation> findByDoctorId(String doctorId);
 
+    List<Teleconsultation> findByPatientId(String patientId);
 
     List<Teleconsultation> findByStatus(TeleconsultationStatus teleconsultationStatus);
 }

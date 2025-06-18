@@ -48,7 +48,7 @@ spring:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
 
         - id: appointment-service
-          uri: http://appointment-service:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/appointment/**
           filters:

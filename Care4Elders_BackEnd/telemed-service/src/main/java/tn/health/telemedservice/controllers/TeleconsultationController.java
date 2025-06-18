@@ -71,4 +71,9 @@ public class TeleconsultationController {
         return ResponseEntity.ok(reportData);
     }
 
+    @GetMapping("/user/{userId}")
+    public List<TeleconsultationDTO> getTeleconsultationsByUser(@PathVariable String userId) {
+        return teleconsultationService.getTeleconsultationsByUser(userId);
+    }
+
 }

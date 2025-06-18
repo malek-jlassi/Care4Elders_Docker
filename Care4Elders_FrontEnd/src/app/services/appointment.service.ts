@@ -7,12 +7,16 @@ import { Appointment } from '../models/appointment.model';
   providedIn: 'root'
 })
 export class AppointmentService {
-  private baseUrl = 'http://localhost:8081/appointment'; 
+  private baseUrl = 'http://localhost:8080/appointment'; 
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.baseUrl);
+  }
+
+  getAppointmentsByUser(userId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/user/${userId}`);
   }
 
   getById(id: string): Observable<Appointment> {

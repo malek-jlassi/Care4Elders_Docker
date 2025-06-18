@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import tn.health.telemedservice.DTO.TeleconsultationDTO;
 import tn.health.telemedservice.DTO.TeleconsultationRequestDTO;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,4 +26,5 @@ public interface ITeleconsultationService {
     TeleconsultationDTO getTeleconsultation(String id);
 
     //TeleconsultationDTO getByDoctorName(String doctorName);
+    List<TeleconsultationDTO> getTeleconsultationsByUser(String userId);
 }

@@ -74,12 +74,6 @@ export class CareRequestFormComponent implements OnInit {
   //     careType: ['', Validators.required],
   //     description: ['', [Validators.required, Validators.minLength(10)]],
   //     startDate: ['', [Validators.required, notBeforeNow]],
-  //     endDate: ['', [Validators.required, endDateAfterStartDate ]]
-  //   });
-  
-  //   const patientId = this.authService.getLoggedInUserId();
-  //   this.getPatientInfo(patientId);
-  // }
   ngOnInit(): void {
     this.updateMinDate();
     setInterval(() => this.updateMinDate(), 60000);
@@ -92,13 +86,11 @@ export class CareRequestFormComponent implements OnInit {
       endDate: ['', [Validators.required, endDateAfterStartDate ]]
     });
   
-    // 🔁 Subscribe to current user
     this.authService.currentUser$.subscribe(user => {
       if (user && user.id) {
         this.getPatientInfo(user.id);
       } else {
         console.error('Utilisateur non connecté');
-        // Optionally: redirect to login page or show error message
       }
     });
   }
@@ -146,6 +138,11 @@ export class CareRequestFormComponent implements OnInit {
   
   
   submit() {
+    // Redirect to login if not logged in
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -229,9 +226,8 @@ export class CareRequestFormComponent implements OnInit {
           });
           this.editingRequest = undefined;
           this.requestCreated.emit();
-          if (res && res.facture && res.facture.id) {
-            this.router.navigate(['/facture-detail', res.facture.id]);
-          }
+          // Stay on the care request page and let the parent/list update
+          // Optionally, show a success message here
         },
         error: err => {
           console.error('Error details:', err);

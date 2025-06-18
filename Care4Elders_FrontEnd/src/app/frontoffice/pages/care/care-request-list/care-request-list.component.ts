@@ -7,6 +7,7 @@ import { BillingService } from '../../../../services/facture.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { AuthService } from '../../../../services/Auth.service';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-care-request-list',
@@ -27,18 +28,22 @@ pageSize = 5;
 currentPage = 1;
 //selectedStatus: string = 'ALL'; // Default to show all
 
-  constructor(private careRequestService: CareRequestService, private billingService: BillingService, private authService: AuthService) {}
+  constructor(
+    private careRequestService: CareRequestService,
+    private billingService: BillingService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchRequests();
-    this.authService.currentUser$.subscribe(user => {
-      if (user && user.id) {
-        this.loadData(user.id); // ✅ use real patient id
-      } else {
-        console.error('Utilisateur non connecté ou ID manquant.');
-        // Optionally redirect to login
-      }
-    });
+    const user = this.userService.getUser();
+    if (user && user.id) {
+      this.loadData(user.id);
+    } else {
+      this.requests = [];
+      this.factures = [];
+      // Optionally, redirect to login or show a message
+    }
   }
 
   loadData(patientId: string) {

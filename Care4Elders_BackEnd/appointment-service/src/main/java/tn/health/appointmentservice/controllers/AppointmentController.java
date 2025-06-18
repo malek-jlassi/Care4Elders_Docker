@@ -40,4 +40,12 @@ public class AppointmentController {
     public void deleteAppointment(@PathVariable String id) {
         appointmentService.deleteAppointment(id);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<Appointment> getAppointmentsByUser(@PathVariable String userId) {
+        System.out.println("Fetching appointments for userId: " + userId);
+        List<Appointment> result = appointmentService.getAppointmentsByUser(userId);
+        System.out.println("Found appointments: " + (result != null ? result.size() : "null"));
+        return result;
+    }
 }
