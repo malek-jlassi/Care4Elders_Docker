@@ -21,9 +21,13 @@ public class DataInitializer {
                 admin.setPassword("Admincare4");
                 admin.setRole(Role.ADMIN);
 
-                serviceUtilisateur.inscriptionUtilisateur(admin);
+                Utilisateur savedAdmin = serviceUtilisateur.inscriptionUtilisateur(admin);
 
-                System.out.println("👑 Administrateur créé avec succès !");
+                if (savedAdmin != null && savedAdmin.getId() != null) {
+                    System.out.println("👑 Administrateur créé et sauvegardé avec succès ! ID: " + savedAdmin.getId());
+                } else {
+                    System.err.println("❌ ECHEC: La sauvegarde de l'administrateur a échoué !");
+                }
             } else {
                 System.out.println("👑 Administrateur déjà existant. Aucune création.");
             }

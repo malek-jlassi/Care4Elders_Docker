@@ -26,7 +26,7 @@ public class EmailService {
 
     public void sendResetPasswordEmail(String to, String token) {
         String subject = "Réinitialisation du mot de passe";
-        String resetLink = "http://localhost:4200/utilisateur/forgot-password?token=" + token;
+        String resetLink = System.getenv().getOrDefault("FRONTEND_URL", "http://localhost:4200") + "/utilisateur/forgot-password?token=" + token;
 
         String htmlContent = """
                     <html>
