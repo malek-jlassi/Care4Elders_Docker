@@ -1,0 +1,212 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: care4elders
+    volumes:
+      - mongo-data:/data/db
+
+  registry-server:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: RegistryServer
+    container_name: registry-server
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  api-gateway:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      registry-server:
+        condition: service_healthy
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  appointment-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: appointment-service
+    container_name: appointment-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  billing-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: billing-service
+    container_name: billing-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  care-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: care-service
+    container_name: care-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  delivery-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: delivery-service
+    container_name: delivery-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  payment-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: payment-service
+    container_name: payment-service
+    ports:
+      - "8087:8087"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  product-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: product-service
+    container_name: product-service
+    ports:
+      - "9091:9091"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  telemed-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: telemed-service
+    container_name: telemed-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  user-service:
+    build:
+      context: ./Care4Elders_BackEnd
+      dockerfile: Dockerfile
+      args:
+        MODULE_PATH: user-service
+    container_name: user-service
+    ports:
+      - "9090:9090"
+    depends_on:
+      mongo:
+        condition: service_started
+      registry-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/care4elders
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-server:8761/eureka
+
+  frontend:
+    build: ./Care4Elders_FrontEnd
+    container_name: frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      api-gateway:
+        condition: service_started
+    environment:
+      - NODE_ENV=production
+
+  dashboard:
+    build: ./Care4Elders_Dashboard/Dashboard
+    container_name: dashboard
+    ports:
+      - "4300:4300"
+    depends_on:
+      api-gateway:
+        condition: service_started
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  mongo-data:
+

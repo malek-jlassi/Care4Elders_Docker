@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import tn.health.careservice.dto.UserDTO;
 
 @EnableFeignClients
-@FeignClient(name = "user-service", url = "http://localhost:8080")  // Update the URL with your actual User Service URL
+@FeignClient(name = "user-service")
 public interface UserClient {
 
     @GetMapping("/users/{userId}")

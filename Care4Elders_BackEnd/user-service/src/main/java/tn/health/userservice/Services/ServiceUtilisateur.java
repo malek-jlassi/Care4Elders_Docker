@@ -64,7 +64,8 @@ public class ServiceUtilisateur implements IServiceUtilisateur{
 
     @Override
     public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
-        return utilisateurRepository.save(utilisateur);
+        // Delegate to inscriptionUtilisateur for consistent user creation (with password hashing and duplicate checks)
+        return inscriptionUtilisateur(utilisateur);
     }
 
     @Override

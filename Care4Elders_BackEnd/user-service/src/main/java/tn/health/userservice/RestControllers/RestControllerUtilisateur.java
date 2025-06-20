@@ -26,6 +26,21 @@ import java.util.UUID;
 @RequestMapping("/api/utilisateur")
 public class RestControllerUtilisateur {
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Utilisateur>> getAllUtilisateurs() {
+        List<Utilisateur> utilisateurs = serviceUtilisateur.afficherListeUtilisateurs();
+        return ResponseEntity.ok(utilisateurs);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUtilisateurById(@PathVariable String id) {
+        Utilisateur utilisateur = serviceUtilisateur.afficherUtilisateurParId(id);
+        if (utilisateur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur non trouvé");
+        }
+        return ResponseEntity.ok(utilisateur);
+    }
+
     IServiceUtilisateur serviceUtilisateur;
 
     @PostMapping("ajouterUtilisateur")

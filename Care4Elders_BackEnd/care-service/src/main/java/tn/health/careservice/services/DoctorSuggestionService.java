@@ -23,7 +23,7 @@ public class DoctorSuggestionService implements IDoctorSuggestionService {
 
     @Override
     public String suggestDoctorSpecialty(String description) {
-        String url = "http://localhost:11434/api/generate";
+        String url = "http://ai-service:11434/api/generate";
 
         String prompt = "Given the following care request description: \"" + description +
                 "\", what kind of doctor specialty or healthcare worker is most appropriate to handle this case? " +

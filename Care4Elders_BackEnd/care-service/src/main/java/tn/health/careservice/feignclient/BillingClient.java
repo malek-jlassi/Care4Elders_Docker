@@ -7,7 +7,7 @@ import tn.health.careservice.dto.CareRequestPayload;
 import tn.health.careservice.dto.CareServiceRequestDTO;
 import tn.health.careservice.dto.FactureResponseDTO;
 
-@FeignClient(name = "billing-api", url = "http://localhost:8084") // Replace with actual billing port
+@FeignClient(name = "billing-service", url = "http://billing-service:8084")
 public interface BillingClient {
     @PostMapping("/factures/generate")
     FactureResponseDTO createBillFromRequest(@RequestBody CareRequestPayload payload);
